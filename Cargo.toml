@@ -1,7 +1,13 @@
 [package]
 name = "audios21"
+description = "A measurement kit for audio-range insertion loss, phase, and time-domain measurements via your sound card"
+repository = "https://github.com/georgev93/audios21"
 version = "0.1.0"
 edition = "2024"
+license = "GPLv3"
+keywords = ["audio", "analyzer"]
+categories = ["Command line utilities", "GUI", "Visualization"]
+readme = "Readme.md"
 
 [lints.rust]
 missing_docs = "warn"
@@ -10,7 +16,7 @@ dead_code = "allow"
 [lints.clippy]
 all = "warn"
 pedantic = "warn"
-# cargo = "warn"
+cargo = "warn"
 
 [dependencies]
 clap = "4"  # Command line parsing
