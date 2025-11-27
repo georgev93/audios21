@@ -3,25 +3,22 @@
 pub mod s21;
 pub use s21::S21;
 
-/// Fields shared by all measurement types
-pub struct MeasurementCommon<T> {
-    /// Name of the measurement
-    name: String,
-
-    /// Whether or not the measurement has been taken
-    ran: bool,
-
-    /// The data collected by the measurement
-    data: Option<T>,
-
-    /// The expected result (if this test is pass/fail)
-    expected_result: Option<T>,
+/// Types of Measurements available in this kit
+pub enum MeasurementTypes {
+    /// Perform an S21 insertion loss measurement (with phase information)
+    S21(S21)
 }
 
-pub trait MeasurementData {
-    fn interpolate(&mut self);
-    fn get_point(&self, dependent_var: f64) -> f64;
+/// Measurement interface
+pub trait Measurement {
+    type Data;
+
+    fn name(&self) -> &str;
+    fn run(&self) -> TestResult;
+    fn set_expectation(&mut self, data: Self::Data);
+    fn get_data(&self) -> Option<&Self::Data>;
 }
+
 
 /// Possible outcomes of a test that ran with no errors
 pub enum TestOutcome {
@@ -38,15 +35,3 @@ pub enum TestOutcome {
 /// Either a `TestOutcome` or an error thrown while running
 pub type TestResult = Result<TestOutcome, std::io::Error>;
 
-pub trait Measurement {
-    type MeasurementData;
-
-    fn name(&self) -> &str;
-    fn run(&self) -> TestResult;
-    fn set_expectation(&mut self, data: Self::MeasurementData);
-    fn get_data(&self) -> Option<&Self::MeasurementData>;
-}
-
-pub enum MeasurementTypes {
-    S21(s21::S21)
-}

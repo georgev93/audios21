@@ -1,4 +1,4 @@
-use crate::measurement_kit::{Measurement, MeasurementCommon, TestOutcome, TestResult};
+use crate::measurement_kit::{Measurement, TestOutcome, TestResult};
 
 pub struct S21Data {
     freq: Vec<u32>,
@@ -6,27 +6,35 @@ pub struct S21Data {
 }
 
 pub struct S21 {
-    pub base: MeasurementCommon<S21Data>,
+    /// Name of the measurement
+    name: String,
+
+    /// Whether or not the measurement has been taken
+    ran: bool,
+
+    /// The data collected by the measurement
+    data: Option<S21Data>,
+
+    /// The expected result (if this test is pass/fail)
+    expected_result: Option<S21Data>,
 }
 
 impl S21 {
     pub fn new(name: &str) -> Self {
         Self {
-            base: MeasurementCommon {
-                name: name.to_string(),
-                ran: false,
-                data: None,
-                expected_result: None,
-            },
+            name: name.to_string(),
+            ran: false,
+            data: None,
+            expected_result: None,
         }
     }
 }
 
 impl Measurement for S21 {
-    type MeasurementData = S21Data;
+    type Data = S21Data;
 
     fn name(&self) -> &str {
-        &self.base.name
+        &self.name
     }
 
     fn run(&self) -> TestResult {
@@ -37,18 +45,19 @@ impl Measurement for S21 {
         };
         collected_data.freq.push(1000);
         collected_data.amp.push(1.0);
-        if self.base.expected_result.is_some() {
+
+        if self.expected_result.is_some() {
             Ok(TestOutcome::Passed)
         } else {
             Ok(TestOutcome::Ran)
         }
     }
 
-    fn set_expectation(&mut self, data: Self::MeasurementData) {
-        self.base.expected_result = Some(data);
+    fn set_expectation(&mut self, data: Self::Data) {
+        self.expected_result = Some(data);
     }
 
-    fn get_data(&self) -> Option<&Self::MeasurementData> {
-        self.base.data.as_ref()
+    fn get_data(&self) -> Option<&Self::Data> {
+        self.data.as_ref()
     }
 }

@@ -1,9 +1,10 @@
+//! This is my crate doc
+
 use crate::measurement_kit::Measurement;
 
 // mod cli;
 mod measurement_kit;
 // use crate::measurement_kit;
-
 
 fn main() {
     let my_measurement = measurement_kit::S21::new("first measurement");
@@ -11,4 +12,3 @@ fn main() {
     // Ignore errors
     let _ = my_measurement.run();
 }
-
