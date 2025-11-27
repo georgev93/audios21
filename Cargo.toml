@@ -1,0 +1,25 @@
+[package]
+name = "audios21"
+version = "0.1.0"
+edition = "2024"
+
+[lints.rust]
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+# cargo = "warn"
+
+[dependencies]
+clap = "4"  # Command line parsing
+
+### AI Suggested
+# hound - WAV Files
+# audrey - Converting WAV files
+# dasp - DSP Toolkit from RustAudio
+# cpal - Cross-platform audio input/output library
+# rodio - cpal only higher level
+# audio-visualizer - Live visualization of audio spectrum
+# plotters - GUI plotting
+
