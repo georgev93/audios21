@@ -1,5 +1,10 @@
+// pub use crate::measurement_kit::s21;
+
+pub mod s21;
+pub use s21::S21;
+
 /// Fields shared by all measurement types
-pub struct MeasurementCommon {
+pub struct MeasurementCommon<T> {
     /// Name of the measurement
     name: String,
 
@@ -7,13 +12,13 @@ pub struct MeasurementCommon {
     ran: bool,
 
     /// The data collected by the measurement
-    data: Box<dyn Data>,
+    data: Option<T>,
 
     /// The expected result (if this test is pass/fail)
-    expected_result: Option<Box<dyn Data>>,
+    expected_result: Option<T>,
 }
 
-pub trait Data {
+pub trait MeasurementData {
     fn interpolate(&mut self);
     fn get_point(&self, dependent_var: f64) -> f64;
 }
@@ -34,8 +39,14 @@ pub enum TestOutcome {
 pub type TestResult = Result<TestOutcome, std::io::Error>;
 
 pub trait Measurement {
+    type MeasurementData;
+
     fn name(&self) -> &str;
     fn run(&self) -> TestResult;
-    fn set_expectation(&self, data: Box<dyn Data>);
-    fn get_data(&self) -> Box<dyn Data>;
+    fn set_expectation(&mut self, data: Self::MeasurementData);
+    fn get_data(&self) -> Option<&Self::MeasurementData>;
+}
+
+pub enum MeasurementTypes {
+    S21(s21::S21)
 }
