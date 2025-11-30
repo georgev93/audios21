@@ -4,11 +4,11 @@ use std::time::Duration;
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
-// mod cli;
-mod measurement_kit;
-// use crate::measurement_kit;
+use audios21::{MeasurementSuite, StreamChoice};
 
 fn main() {
+    let mut my_suite = MeasurementSuite::new();
+    my_suite.set_input_stream(StreamChoice::DefaultDevice());
     // let my_measurement = measurement_kit::s21::S21::new("first measurement");
 
     // Ignore errors
