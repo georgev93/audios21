@@ -23,3 +23,30 @@ impl AudioDriverImpl {
         AudioDriverImpl {  }
     }
 }
+
+#[cfg(test)]
+pub mod mocks {
+    use super::*;
+
+    use std::cell::Cell;
+
+    pub struct MockAudioDriver {
+        pub called_get_default_source: Cell<u8>,
+    }
+
+    impl MockAudioDriver {
+        pub fn new() -> Self {
+            Self {
+                called_get_default_source: Cell::new(0),
+            }
+        }
+    }
+
+    impl AudioDriver for MockAudioDriver {
+        fn get_default_source(&self) -> StreamSource {
+            let curr = self.called_get_default_source.take();
+            self.called_get_default_source.set(curr + 1);
+            StreamSource {}
+        }
+    }
+}

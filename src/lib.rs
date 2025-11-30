@@ -89,28 +89,7 @@ impl<A: AudioDriver> MeasurementSuite<A> {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    use std::cell::Cell;
-
-    struct MockAudioDriver {
-        called_get_default_source: Cell<u8>,
-    }
-
-    impl MockAudioDriver {
-        fn new() -> Self {
-            Self {
-                called_get_default_source: Cell::new(0),
-            }
-        }
-    }
-
-    impl AudioDriver for MockAudioDriver {
-        fn get_default_source(&self) -> StreamSource {
-            let curr = self.called_get_default_source.take();
-            self.called_get_default_source.set(curr + 1);
-            StreamSource {}
-        }
-    }
+    use crate::audio::mocks::MockAudioDriver;
 
     #[test]
     fn requesting_measurements() {
