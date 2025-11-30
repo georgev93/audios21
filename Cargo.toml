@@ -18,6 +18,7 @@ all = "warn"
 pedantic = "warn"
 cargo = "warn"
 multiple_crate_versions = { level = "allow", priority = 1 } # Thanks, cpal
+new_without_default = { level = "allow", priority = 1 }
 
 [dependencies]
 cpal = "0.16.0"

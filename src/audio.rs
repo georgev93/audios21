@@ -18,6 +18,7 @@ impl AudioDriver for AudioDriverImpl {
 }
 
 impl AudioDriverImpl {
+    #[must_use]
     pub fn new() -> Self {
         AudioDriverImpl {  }
     }

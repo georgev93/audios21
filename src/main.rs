@@ -8,7 +8,7 @@ use audios21::{MeasurementSuite, StreamChoice};
 
 fn main() {
     let mut my_suite = MeasurementSuite::new();
-    my_suite.set_input_stream(StreamChoice::DefaultDevice());
+    my_suite.set_input_stream(&StreamChoice::DefaultDevice());
     // let my_measurement = measurement_kit::s21::S21::new("first measurement");
 
     // Ignore errors

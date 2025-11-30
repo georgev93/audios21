@@ -1,3 +1,5 @@
+//! q
+
 //! Documentation
 
 mod audio;
@@ -39,6 +41,7 @@ struct MeasurementSuiteConfig {
 
 impl MeasurementSuite<AudioDriverImpl> {
     /// New
+    #[must_use]
     pub fn new() -> Self {
         Self {
             audio_driver: AudioDriverImpl::new(),
@@ -50,9 +53,13 @@ impl MeasurementSuite<AudioDriverImpl> {
 }
 
 impl<A: AudioDriver> MeasurementSuite<A> {
-    pub fn with_AudioDriver(audio_driver: A) -> Self {
+    /// Constructor to allow for dependency injection of the ``AudioDriver`` object (mainly for
+    /// testing)
+    ///
+    /// * `audio_driver`: Which driver to use for audio (could be a mock)
+    pub fn with_audio_driver(audio_driver: A) -> Self {
         Self {
-            audio_driver: audio_driver,
+            audio_driver,
             input_stream: None,
             output_stream: None,
             measurements: Vec::new(),
@@ -66,7 +73,10 @@ impl<A: AudioDriver> MeasurementSuite<A> {
         self.measurements.push(measurement);
     }
 
-    pub fn set_input_stream(&mut self, stream: StreamChoice) {
+    /// Sets the input stream to be used for measurements
+    ///
+    /// * `stream`: The input stream to be used
+    pub fn set_input_stream(&mut self, stream: &StreamChoice) {
         match stream {
             StreamChoice::DefaultDevice() => {
                 self.input_stream = Some(self.audio_driver.get_default_source());
@@ -123,11 +133,11 @@ mod tests {
     #[test]
     fn setting_streams() {
         let mock_audio_driver = MockAudioDriver::new();
-        let mut my_suite = MeasurementSuite::with_AudioDriver(mock_audio_driver);
+        let mut my_suite = MeasurementSuite::with_audio_driver(mock_audio_driver);
 
         assert!(my_suite.input_stream.is_none());
 
-        my_suite.set_input_stream(StreamChoice::DefaultDevice());
+        my_suite.set_input_stream(&StreamChoice::DefaultDevice());
         assert!(my_suite.input_stream.is_some());
         assert_eq!(my_suite.audio_driver.called_get_default_source.get(), 1);
     }
