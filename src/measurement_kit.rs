@@ -4,6 +4,7 @@ pub mod s21;
 pub use s21::S21;
 
 /// Types of Measurements available in this kit
+#[derive(Debug, PartialEq)]
 pub enum MeasurementTypes {
     /// Perform an S21 insertion loss measurement (with phase information)
     S21(S21)

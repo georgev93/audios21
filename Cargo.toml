@@ -17,9 +17,11 @@ dead_code = "allow"
 all = "warn"
 pedantic = "warn"
 cargo = "warn"
+multiple_crate_versions = { level = "allow", priority = 1 } # Thanks, cpal
 
 [dependencies]
-clap = "4"  # Command line parsing
+cpal = "0.16.0"
+# clap = "4"  # Command line parsing
 
 ### AI Suggested
 # hound - WAV Files

@@ -1,10 +1,12 @@
 use crate::measurement_kit::{Measurement, TestOutcome, TestResult};
 
+#[derive(Debug, PartialEq)]
 pub struct S21Data {
     freq: Vec<u32>,
     amp: Vec<f64>,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct S21 {
     /// Name of the measurement
     name: String,
