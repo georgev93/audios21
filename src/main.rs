@@ -2,8 +2,6 @@
 
 use std::time::Duration;
 
-use crate::measurement_kit::Measurement;
-
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 // mod cli;
@@ -11,10 +9,10 @@ mod measurement_kit;
 // use crate::measurement_kit;
 
 fn main() {
-    let my_measurement = measurement_kit::S21::new("first measurement");
+    // let my_measurement = measurement_kit::s21::S21::new("first measurement");
 
     // Ignore errors
-    let _ = my_measurement.run();
+    // let _ = my_measurement.run();
 
     let host = cpal::default_host();
     let device = host
@@ -33,14 +31,16 @@ fn main() {
 
     dbg!(&config);
 
-    let stream = device.build_input_stream(
-        &config,
-        |_: &[f32], _: &cpal::InputCallbackInfo| println!("listening"),
-        |_| println!("Encountered an error"),
-        Some(Duration::new(5, 0)),
-    ).unwrap();
-    
-    stream.play().unwrap() ;
+    let stream = device
+        .build_input_stream(
+            &config,
+            |_: &[f32], _: &cpal::InputCallbackInfo| println!("listening"),
+            |_| println!("Encountered an error"),
+            Some(Duration::new(5, 0)),
+        )
+        .unwrap();
 
-    std::thread::sleep(Duration::new(10,0));
+    stream.play().unwrap();
+
+    std::thread::sleep(Duration::new(10, 0));
 }

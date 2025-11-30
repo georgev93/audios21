@@ -1,23 +1,10 @@
-// pub use crate::measurement_kit::s21;
-
 pub mod s21;
-pub use s21::S21;
-
-/// Types of Measurements available in this kit
-#[derive(Debug, PartialEq)]
-pub enum MeasurementTypes {
-    /// Perform an S21 insertion loss measurement (with phase information)
-    S21(S21)
-}
 
 /// Measurement interface
 pub trait Measurement {
-    type Data;
-
     fn name(&self) -> &str;
     fn run(&self) -> TestResult;
-    fn set_expectation(&mut self, data: Self::Data);
-    fn get_data(&self) -> Option<&Self::Data>;
+    fn calibrate(&self) -> Result<(), std::io::Error> ;
 }
 
 

@@ -33,8 +33,6 @@ impl S21 {
 }
 
 impl Measurement for S21 {
-    type Data = S21Data;
-
     fn name(&self) -> &str {
         &self.name
     }
@@ -55,11 +53,7 @@ impl Measurement for S21 {
         }
     }
 
-    fn set_expectation(&mut self, data: Self::Data) {
-        self.expected_result = Some(data);
-    }
-
-    fn get_data(&self) -> Option<&Self::Data> {
-        self.data.as_ref()
+    fn calibrate(&self) -> Result<(), std::io::Error>  {
+        Ok(())
     }
 }
